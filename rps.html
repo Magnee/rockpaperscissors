@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset = "utf-8">
+    <title>Rock Paper Scissors</title>
+  </head>
+  <body>
+
+    <h2>Choose your Weapon!<h2>
+    <div id="playerInput">
+      <button id="rockBtn">Rock</button>
+      <button id="paperBtn">Paper</button>
+      <button id="scissorsBtn">Scissors</button>
+    </div>
+
+    <div id="score"></div>
+    <div id="output"></div>
+
+
+    <script>
+
+/*    Setup     */
+      let playerSelect;
+      let playerWins = 0;
+      let computerWins = 0;
+      let roundCount = 0;
+
+/*    Game Round      */
+      function playRound(playerSelect) {
+        ++roundCount;
+
+        function computerPlay() {
+          let hand = Math.floor((Math.random() * 3) + 1);
+          if (hand <= 1) {
+            console.log("Computer chose: Rock.");
+            return "Rock";
+          } else if (hand <= 2) {
+            console.log("Computer chose: Paper.");
+            return "Paper";
+          } else {
+            console.log("Computer chose: Scissors")
+            return "Scissors";
+          }
+        }
+        let compSelect = computerPlay();
+
+        function getResult() {
+          const output = document.querySelector("#output");
+          const report = document.createElement("p");
+          if (roundCount == 1) {
+            while (output.lastChild) {
+              output.removeChild(output.lastChild);
+            }
+          }
+          if (playerSelect == "rockBtn" && compSelect == "Rock") {
+            console.log("A Tie! " + playerSelect + " vs " + compSelect + "!");
+            report.textContent = "Round " + roundCount + ": A Tie! Rock vs Rock.";
+            output.insertBefore(report, output.childNodes[0]);
+            return "tie";
+          } else if (playerSelect == "rockBtn" && compSelect == "Paper") {
+            console.log("You Lost the Round! " + compSelect + " beats " + playerSelect + "!");
+            report.textContent = "Round " + roundCount + ": A Loss! Rock vs Paper.";
+            output.insertBefore(report, output.childNodes[0]);
+            computerWins = computerWins +1;
+            return "lost";
+          } else if (playerSelect == "rockBtn" && compSelect == "Scissors") {
+            console.log("You Win the Round! " + playerSelect + " beats " + compSelect + "!")
+            report.textContent = "Round " + roundCount + ": A Win! Rock vs Scissors.";
+            output.insertBefore(report, output.childNodes[0]);
+            playerWins = playerWins +1;
+            return "won";
+          } else if (playerSelect == "paperBtn" && compSelect == "Rock") {
+            console.log("You Win the Round! " + playerSelect + " beats " + compSelect + "!");
+            report.textContent = "Round " + roundCount + ": A Win! Paper vs Rock.";
+            output.insertBefore(report, output.childNodes[0]);
+            playerWins = playerWins +1;
+            return "won";
+          } else if (playerSelect == "paperBtn" && compSelect == "Paper") {
+            console.log("A Tie! " + playerSelect + " vs " + compSelect + "!");
+            report.textContent = "Round " + roundCount + ": A Tie! Paper vs Paper.";
+            output.insertBefore(report, output.childNodes[0]);
+            return "tie";
+          } else
+          if (playerSelect == "paperBtn" && compSelect == "Scissors") {
+            console.log("You Lost the Round! " + compSelect + " beats " + playerSelect + "!");
+            report.textContent = "Round " + roundCount + ": A Loss! Paper vs Scissors.";
+            output.insertBefore(report, output.childNodes[0]);
+            computerWins = computerWins +1;
+            return "lost";
+          } else if (playerSelect == "scissorsBtn" && compSelect == "Rock") {
+            console.log("You Lost the Round! " + compSelect + " beats " + playerSelect + "!");
+            report.textContent = "Round " + roundCount + ": A Loss! Scissors vs Rock.";
+            output.insertBefore(report, output.childNodes[0]);
+            computerWins = computerWins +1;
+            return "lost";
+          } else if (playerSelect == "scissorsBtn" && compSelect == "Paper") {
+            console.log("You Win the Round! " + playerSelect + " beats " + compSelect + "!");
+            report.textContent = "Round " + roundCount + ": A Win! Scissors vs Paper.";
+            output.insertBefore(report, output.childNodes[0]);
+            playerWins = playerWins +1;
+            return "won";
+          } else if (playerSelect == "scissorsBtn" && compSelect == "Scissors") {
+            console.log("A Tie! " + playerSelect + " vs " + compSelect + "!");
+            report.textContent = "Round " + roundCount + ": A Tie! Scissors vs Scissrs.";
+            output.insertBefore(report, output.childNodes[0]);
+            return "tie";
+          } else {
+            console.log("You Lost the Round! Everything beats " + playerSelect + "!!");
+            report.textContent = "Error";
+            output.insertBefore(report, output.childNodes[0]);
+            computerWins = computerWins +1;
+            return "lost";
+          }
+        }
+        let result = getResult ();
+
+        function keepScore() {
+          const winner = document.createElement("p");
+          const score = document.querySelector("#score");
+          score.textContent = "Score: Player: " + playerWins + " Computer: " + computerWins;
+          if (playerWins >= 5) {
+            winner.textContent = "PLAYER WINS!!"
+            playerWins = 0;
+            computerWins = 0;
+            roundCount = 0;
+          } else if (computerWins >= 5) {
+            winner.textContent = "Computer WINS!!"
+            playerWins = 0;
+            computerWins = 0;
+            roundCount = 0;
+          }
+          score.appendChild(winner);
+        }
+        let whoWon = keepScore();
+
+      }
+
+
+/*    Player input by buttons     */
+      let btn = document.querySelectorAll("button");
+      btn.forEach((button) => {
+        button.addEventListener("click", (e) => {
+          playRound(button.id);
+        });
+      });
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+  </body>
+</html>
